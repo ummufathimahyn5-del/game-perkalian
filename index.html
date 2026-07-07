@@ -1,0 +1,40 @@
+btn.onclick = () => checkAnswer(btn, v);
+                container.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(btn, val) {
+            if (locked) return;
+            locked = true;
+            
+            if (val === answer) {
+                playSound(true);
+                score++;
+                document.getElementById('score').textContent = score;
+                document.getElementById('score').classList.add('pop');
+                setTimeout(() => document.getElementById('score').classList.remove('pop'), 300);
+                btn.classList.add('correct');
+                document.getElementById('feedback').textContent = '✓ Benar!';
+                document.getElementById('feedback').style.color = '#22c55e';
+            } else {
+                playSound(false);
+                btn.classList.add('wrong');
+                document.getElementById('feedback').textContent = `✗ Jawaban: ${answer}`;
+                document.getElementById('feedback').style.color = '#ef4444';
+                document.querySelectorAll('#options button').forEach(b => {
+                    if (parseInt(b.textContent) === answer) b.classList.add('correct');
+                });
+            }
+            setTimeout(generateQuestion, 1200);
+        }
+
+        function resetGame() {
+            score = 0; qNum = 0;
+            document.getElementById('score').textContent = 0;
+            generateQuestion();
+        }
+
+        generateQuestion();
+    </script>
+ </body>
+</html>
